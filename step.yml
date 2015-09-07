@@ -1,26 +1,36 @@
----
-name: Set Environment Variable
-description: |
+title: Set Environment Variable
+summary: Set Environment Variable
+description: |-
   Define an Environment Variable, key and it's value for the upcoming Steps.
-  
+
   *The Environment Variable will be added to a profile file, to make it available
   for other steps. Default is ~/.bash_profile*
 website: https://github.com/bitrise-io/steps-environment-variable
-source:
-  git: https://github.com/bitrise-io/steps-environment-variable.git
+source_code_url: https://github.com/bitrise-io/steps-environment-variable
+support_url: https://github.com/bitrise-io/steps-environment-variable
 host_os_tags:
   - osx-10.9
+project_type_tags: []
 type_tags:
   - environment
 requires_admin_user: false
-
+is_always_run: true
+is_skippable: false
+dependencies: []
+run_if: ""
 inputs:
-  - title: |
-      Environment Variable Key - without a dollar sign ($), just the name of the key, without spaces. All caps is recommended but not required). Example: MY_VAR.
-    mapped_to: ENVIRONMENT_KEY
-  - title: |
-      Value - this will replace the key when you use the key with a leading dollar sign ($)
-    mapped_to: ENVIRONMENT_VALUE
-  - title: |
-      (optional, default: $HOME/.bash_profile) Profile File path, the Env variable will be appended into
-    mapped_to: ENVIRONMENT_PROFILE_FILE
+  - key: ""
+    opts:
+      title: |-
+        Environment Variable Key - without a dollar sign ($), just the name of the key, without spaces.
+        All caps is recommended but not required).
+        Example: MY_VAR.
+  - value: ""
+    opts:
+      title: |-
+        Value - this will replace the key when you use the key with a leading dollar sign ($)
+  - profile_file:
+    opts:
+      title: |-
+        (optional, default: $HOME/.bash_profile) Profile File path, the Env variable will be appended into
+outputs: []
