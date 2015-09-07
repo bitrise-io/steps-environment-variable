@@ -9,34 +9,34 @@ echo "" > "${formatted_output_file_path}"
 
 CONFIG_env_file_path="$HOME/.bash_profile"
 
-if [ -n "${ENVIRONMENT_PROFILE_FILE}" ] ; then
-  CONFIG_env_file_path="${ENVIRONMENT_PROFILE_FILE}"
+if [ -n "${profile_file}" ] ; then
+  CONFIG_env_file_path="${profile_file}"
 fi
 
-if [ ! -n "${ENVIRONMENT_KEY}" ]; then
+if [ ! -n "${key}" ]; then
   write_section_to_formatted_output "# Error!"
   write_section_to_formatted_output "* Reason: no Environment Key was specified!"
   exit 1
 fi
 
-if [ ! -n "${ENVIRONMENT_VALUE}" ]; then
+if [ ! -n "${value}" ]; then
   write_section_to_formatted_output "**No value provided, will be set to empty value!**"
 fi
 
 echo
 echo "--- Config:"
-echo "Environment Key: ${ENVIRONMENT_KEY}"
-echo "Environment Value: ${ENVIRONMENT_VALUE}"
+echo "Environment Key: ${key}"
+echo "Environment Value: ${value}"
 echo "Environment profile path: ${CONFIG_env_file_path}"
 echo "---"
 echo
 
 
-if [ ! -n "${ENVIRONMENT_VALUE}" ]; then
+if [ ! -n "${value}" ]; then
   # No value - make it empty
   echo '' >> "${CONFIG_env_file_path}"
   echo '# Exported Environment' >> "${CONFIG_env_file_path}"
-  echo "export ${ENVIRONMENT_KEY}=''" >> "${CONFIG_env_file_path}"
+  echo "export ${key}=''" >> "${CONFIG_env_file_path}"
   echo '' >> "${CONFIG_env_file_path}"
 else
   #
@@ -44,15 +44,15 @@ else
   #  here-doc syntax.
   # Basically it'll append something like this to the specified Env Profile file:
   #   export YOUR_ENV_KEY=`cat << EOF_ENV_VAR
-  #   The content of the variable, what you specified in ENVIRONMENT_VALUE
+  #   The content of the variable, what you specified in value
   #   EOF_ENV_VAR`
   #
   echo '' >> "${CONFIG_env_file_path}"
   echo '# Exported Environment' >> "${CONFIG_env_file_path}"
-  printf '%s' "export ${ENVIRONMENT_KEY}=" >> "${CONFIG_env_file_path}"
+  printf '%s' "export ${key}=" >> "${CONFIG_env_file_path}"
   printf '%s' '`cat << EOF_ENV_VAR' >> "${CONFIG_env_file_path}"
-  echo '' >> "${CONFIG_env_file_path}"  
-  echo "${ENVIRONMENT_VALUE}" >> "${CONFIG_env_file_path}"
+  echo '' >> "${CONFIG_env_file_path}"
+  echo "${value}" >> "${CONFIG_env_file_path}"
   printf '%s' 'EOF_ENV_VAR`' >> "${CONFIG_env_file_path}"
   echo '' >> "${CONFIG_env_file_path}"
   echo '' >> "${CONFIG_env_file_path}"
@@ -65,11 +65,11 @@ if [ $? -ne 0 ] ; then
 fi
 
 write_section_to_formatted_output "# Success"
-if [ ! -n "${ENVIRONMENT_VALUE}" ]; then
-	write_section_to_formatted_output "${ENVIRONMENT_KEY}: **not provided (empty)**"
+if [ ! -n "${value}" ]; then
+	write_section_to_formatted_output "${key}: **not provided (empty)**"
 else
-	write_section_to_formatted_output "${ENVIRONMENT_KEY}:"
-  write_section_to_formatted_output "${ENVIRONMENT_VALUE}"
+	write_section_to_formatted_output "${key}:"
+  write_section_to_formatted_output "${value}"
 fi
 
 exit 0
